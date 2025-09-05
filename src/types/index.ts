@@ -12,6 +12,10 @@ export interface Task {
 }
 
 export interface SyncQueueItem {
+  data_json: any;
+  error: any;
+  next_attempt_at: any;
+  updated_at: any;
   id: string;
   task_id: string;
   operation: 'create' | 'update' | 'delete';
@@ -22,7 +26,7 @@ export interface SyncQueueItem {
 }
 
 export interface SyncResult {
-  success: boolean;
+  success: number;
   synced_items: number;
   failed_items: number;
   errors: SyncError[];
@@ -46,6 +50,7 @@ export interface BatchSyncRequest {
 }
 
 export interface BatchSyncResponse {
+  items: any;
   processed_items: {
     client_id: string;
     server_id: string;
