@@ -1,3 +1,46 @@
+# Task Sync API – Offline-first Backend
+
+Backend API for a personal productivity app used in intermittent connectivity (trains, remote areas in India). Supports offline CRUD with a durable sync queue and batch reconciliation.
+
+## Highlights
+- REST endpoints for tasks (soft delete).
+- Offline-first with a local SQLite store.
+- Durable `sync_queue` with retries (max = `SYNC_MAX_RETRIES`, default 3).
+- **Batch sync** (`SYNC_BATCH_SIZE`, default 50).
+- **Last-write-wins** conflict resolution (by `updated_at`).
+- Exponential backoff before reattempts.
+- Sync status + health check endpoints.
+- Clean separation: `TaskService` (CRUD) vs `SyncService` (sync orchestration).
+
+## API
+### Tasks
+- `GET /api/tasks` – list non-deleted tasks.
+- `GET /api/tasks/:id` – fetch a task.
+- `POST /api/tasks` – create task.
+- `PUT /api/tasks/:id` – update task.
+- `DELETE /api/tasks/:id` – soft delete (204 on success).
+
+### Sync
+- `POST /api/sync` – trigger manual sync (runs batch orchestration).
+- `GET /api/status` – pending queue count, last sync ts, connectivity.
+- `POST /api/sync/batch` – **server-side** batch endpoint shape (included here as a reference/mock). In production, host this on your authoritative backend.
+
+### Request Validation
+Basic in-route validation for create/update; consider adding a global validation middleware (e.g., `zod` or `joi`) for bonus points.
+
+## Environment
+
+
+
+
+
+
+
+
+
+
+
+
 # Backend Interview Challenge - Task Sync API
 
 This is a backend developer interview challenge focused on building a sync-enabled task management API. The challenge evaluates understanding of REST APIs, data synchronization, offline-first architecture, and conflict resolution.
@@ -96,3 +139,26 @@ This challenge is designed to take 2-3 hours to complete.
 ## License
 
 This project is for interview purposes only.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
